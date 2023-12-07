@@ -1,0 +1,23 @@
+
+:root {
+    --B2: #1F1F1F;
+    --Primary-Color-4: #1F2127;
+    --Primary-Color-1: #753FEA;
+    --White: #ffffff;
+    --Black: #000000;
+    --new-web-2: #C1A7F3;
+    --Gray: #2F2F2F;
+    --border-success-default: #82F3A1;
+    --bg-success-light-default: #F0FDF3;
+    --Green: #118432;
+}
+
+html, body{
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+}

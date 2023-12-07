@@ -1,0 +1,57 @@
+version: '3.9'
+
+services:
+
+  wordpress:
+    image: wordpress:latest
+    restart: always
+    ports:
+      - 8880:80
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: ai21
+      WORDPRESS_DB_PASSWORD: ai21
+      WORDPRESS_DB_NAME: ai21
+    volumes:
+      # wordpress files
+      - ./wordpress:/var/www/html
+      # themes and plugins
+      #- ./src/themes/twentytwentyfour:/var/www/html/wp-content/themes/twentytwentyfour
+      - ./src/plugins/acf-to-rest-api:/var/www/html/wp-content/plugins/acf-to-rest-api
+      - ./src/plugins/advanced-custom-fields:/var/www/html/wp-content/plugins/advanced-custom-fields
+      - ./src/plugins/navz-photo-gallery:/var/www/html/wp-content/plugins/navz-photo-gallery
+      - ./src/plugins/svg-support:/var/www/html/wp-content/plugins/svg-support
+      - ./src/plugins/headless-helper:/var/www/html/wp-content/plugins/headless-helper
+      # configuration
+      - ./config/php-apache.conf:/etc/apache2/site-enabled/000-default.conf
+      - ./config/uploads.ini:/usr/local/etc/php/php.ini
+      # logs
+      - ./apache-logs:/var/log/apache2
+    depends_on:
+      - db
+
+  db:
+    container_name: db
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: ai21
+      MYSQL_USER: ai21
+      MYSQL_PASSWORD: ai21
+      MYSQL_ROOT_PASSWORD: ai21
+    volumes:
+      - ./db:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8881:80
+    environment:
+      PMA_HOST: db
+    depends_on:
+      - db
+
+volumes:
+  wordpress:
+  db:
